@@ -4,16 +4,13 @@
 $url = Yii::app()->assetManager->publish(__DIR__.'/entity-selector.js', false, null, YII_DEBUG);
 $cs = Yii::app()->clientScript;
 $cs->registerScriptFile($url);
-$cs->registerScriptFile('/js/select2/select2.js');
-$cs->registerScriptFile('/js/select2/select2_locale_ru.js');
-$cs->registerCssFile('/js/select2/select2.css');
-$cs->registerCssFile('/js/select2/select2-bootstrap.css');
+$cs->registerPackage('select2');
 
 $data = $this->getDataJS();
 ?>
 
 <? 
-echo CHtml::openTag('div', ['id' => $this->id, 'class' => 'entity-selector' ]);
+echo CHtml::openTag('span', ['id' => $this->id, 'class' => 'entity-selector' ]);
 ?>
 	<? 
 	$name = $this->name ?: CHtml::resolveName($this->model, $this->attrib);
@@ -23,11 +20,8 @@ echo CHtml::openTag('div', ['id' => $this->id, 'class' => 'entity-selector' ]);
 	<? if (isset($data['entity']['link'])): ?>
 	<? echo CHtml::link('<i class="icon-user"></i>', $data['entity']['link'], ['class' => 'btn es-link', 'target' => '_blank']); ?>
 	<? endif; ?>
-	<? if (FALSE && $this->showItemClear): ?>
-	<? echo CHtml::link('<i class="icon-remove">&nbsp;</i>', null, ['class' => 'btn']); ?>
-	<? endif; ?>
 	
 <?
-echo CHtml::closeTag('div');
+echo CHtml::closeTag('span');
 $cs->registerScript($this->id, "\$('#".$this->id."').entitySelector(".json_encode($data).");"); 
 ?>

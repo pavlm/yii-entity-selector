@@ -22,7 +22,7 @@ class EntitySelector extends CWidget
 	public $name;
 	
 	/**
-	 * @var string
+	 * @var string active record entity class name
 	 */
 	public $itemType;
 	
@@ -32,37 +32,46 @@ class EntitySelector extends CWidget
 	public $itemCriteria;
 
 	/**
-	 * @var string
+	 * @var string entity id field name
 	 */
 	public $itemId = 'id';
 	
 	/**
-	 * @var string|Closure
+	 * @var string|Closure for labels generation
 	 */
 	public $itemLabel = 'name';
 	
 	/**
-	 * @var string|Closure
+	 * @var string|Closure shows ui link to selected item
 	 */
 	public $itemLink;
 	
 	/**
-	 * @var boolean
+	 * @var boolean TODO check
 	 */
 	public $showItemLink = false;
 	
 	/**
-	 * @var boolean
+	 * @var boolean TODO check
 	 */
 	public $showItemClear = false;
 	
-	const loadFull = 0;
-	const loadPartial = 1;
+	/**
+	 * @var int - size of dataset for server paging, if zero - all records loaded  
+	 */
+	public $listPageSize = 30;
 	
 	/**
-	 * @var int
+	 * TODO
+	 * @var unknown
 	 */
-	public $loadType = 0;
+	public $ajaxRoute;
+	
+	/**
+	 * TODO
+	 * @var unknown
+	 */
+	public $ajaxView;
 	
 	public function run()
 	{
@@ -82,7 +91,7 @@ class EntitySelector extends CWidget
 	}
 	
 	public function getAttribValue() {
-		$val = $this->model->{$this->attrib};
+		$val = $this->model ? $this->model->{$this->attrib} : null;
 		if ($val instanceof CActiveRecord)
 			$val = $val->{$this->itemId};
 		return $val;
@@ -95,6 +104,8 @@ class EntitySelector extends CWidget
 		$data = array(
 			'ajaxId' => $this->ajaxId,
 			'value' => $val,
+		    'ajaxUrl' => $this->ajaxRoute ? Yii::app()->createUrl($this->ajaxRoute) : null,
+		    'ajaxView' => $this->ajaxRoute ? $this->ajaxView : null,
 			'entity' => $e,
 		);
 		return $data;

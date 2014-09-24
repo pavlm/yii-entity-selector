@@ -58,7 +58,8 @@
         		s2callback(this.items)
         	} else {
             	$.ajax({
-            		data:{ajaxId:this.options.ajaxId},
+            		url:this.options.ajaxUrl || "",
+            		data:{ajaxId:this.options.ajaxId, ajaxView:this.options.ajaxView},
             		type:'post',
             		dataType:'json',
             		success: function(data) {
