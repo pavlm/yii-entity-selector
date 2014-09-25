@@ -6,7 +6,7 @@ $cs = Yii::app()->clientScript;
 $cs->registerScriptFile($url);
 $cs->registerPackage('select2');
 
-$data = $this->getDataJS();
+$opts = $this->getJSOptions();
 ?>
 
 <? 
@@ -18,10 +18,10 @@ echo CHtml::openTag('span', ['id' => $this->id, 'class' => 'entity-selector' ]);
 	echo CHtml::textField($this->id.'-edit', '', ['class' => 'es-field']); 
 	?>
 	<? if (isset($data['entity']['link'])): ?>
-	<? echo CHtml::link('<i class="icon-user"></i>', $data['entity']['link'], ['class' => 'btn es-link', 'target' => '_blank']); ?>
+	<? echo CHtml::link('<i class="icon-user"></i>', $opts['entity']['link'], ['class' => 'btn es-link', 'target' => '_blank']); ?>
 	<? endif; ?>
 	
 <?
 echo CHtml::closeTag('span');
-$cs->registerScript($this->id, "\$('#".$this->id."').entitySelector(".json_encode($data).");"); 
+$cs->registerScript($this->id, "\$('#".$this->id."').entitySelector(".json_encode($opts).");"); 
 ?>

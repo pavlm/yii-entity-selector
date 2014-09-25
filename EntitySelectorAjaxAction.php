@@ -14,24 +14,22 @@ class EntitySelectorAjaxAction extends CAction
      */
     public $ajaxView;
     
+    /**
+     * @var string security suffix
+     */
+    public $ajaxViewSuffix = '_selector';
+    
     public function run() {
         
         if (!$this->ajaxView) {
             $this->ajaxView = @$_REQUEST['ajaxView'];
             if (!$this->ajaxView)
-                $this->error('no view');
-            $this->ajaxView .= '_selector'; // security suffix
+                throw new CHttpException(500, 'no view');
+            $this->ajaxView .= $this->ajaxViewSuffix;
         }
-        
         $this->controller->renderPartial($this->ajaxView);
         Yii::app()->end();
         
     }
-    
-    public function error($msg, $httpCode=500) {
-        http_response_code($httpCode);
-        print $msg;
-        Yii::app()->end();
-    }
-    
+   
 }
